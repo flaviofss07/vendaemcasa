@@ -1,5 +1,6 @@
 package com.vendaemcasa.vendaemcasa.resources.exceptions;
 
+import com.vendaemcasa.vendaemcasa.services.exceptions.DataIntegrityException;
 import com.vendaemcasa.vendaemcasa.services.exceptions.ObjectNotFoundException;
 
 import org.springframework.http.HttpStatus;
@@ -17,5 +18,12 @@ public class ResourceExceptionHandler {
 
         StandarError err = new StandarError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+    }
+
+    @ExceptionHandler(DataIntegrityException.class)
+    public ResponseEntity< StandarError > dataIntegrity(DataIntegrityException e, HttpServletRequest request ){
+
+        StandarError err = new StandarError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 }
